@@ -1,0 +1,39 @@
+body {
+    display: flex;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+aside {
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    height: 100vh;
+}
+
+main {
+    padding: 20px;
+    flex-grow: 1;
+    max-height: 100vh;
+    overflow-y: scroll;
+}
+
+aside h2 {
+    margin-top: 0;
+}
+
+aside nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+aside nav ul li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+aside nav ul li a:hover {
+    background-color: #ddd;
+}
