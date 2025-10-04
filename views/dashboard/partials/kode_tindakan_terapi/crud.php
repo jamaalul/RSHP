@@ -24,14 +24,12 @@ if (isset($model) && isset($method)) {
 <link rel="stylesheet" href="../../views/css/crud.css">
 <div class="container">
     <h1>Manage <?php echo ucfirst($key); ?></h1>
-    <a href="/dashboard/<?php echo strtolower($key); ?>/add" class="btn btn-primary mb-3">Tambah <?php  echo ucfirst($key); ?></a>
     <table class="table">
         <thead>
             <tr>
                 <?php foreach ($headers as $header): ?>
                     <th><?php echo htmlspecialchars($header); ?></th>
                 <?php endforeach; ?>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -41,9 +39,6 @@ if (isset($model) && isset($method)) {
                         <?php foreach ($headers as $header): ?>
                             <td><?php echo htmlspecialchars($row->$header); ?></td>
                         <?php endforeach; ?>
-                        <td>
-                            <a href="/dashboard/<?php echo strtolower($key); ?>/edit/<?php echo $row->id; ?>" class="btn btn-warning btn-sm">Edit</a>
-                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>

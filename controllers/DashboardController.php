@@ -122,6 +122,11 @@ class DashboardController {
                 'nama' => $_POST['nama'],
                 'email' => $_POST['email']
             ];
+
+            if (!empty($_POST['password'])) {
+                $data['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            }
+
             $userModel->update($id, $data);
             header("Location: /dashboard/user");
             exit;
@@ -227,6 +232,44 @@ class DashboardController {
         }
     }
 
+    public function addPet() {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $pemilikModel = new \Model\Pemilik($this->container);
+        $all_pemilik = $pemilikModel->getAll();
+
+        $rasModel = new \Model\RasHewan($this->container);
+        $all_ras = $rasModel->getAll();
+
+        $content = __DIR__ . '/../views/dashboard/partials/pet/add.php';
+        include __DIR__ . '/../views/dashboard/layout.php';
+    }
+
+    public function insertPet() {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $petModel = new \Model\Pet($this->container);
+            $data = [
+                'nama' => $_POST['nama'],
+                'tanggal_lahir' => $_POST['tanggal_lahir'],
+                'warna_tanda' => $_POST['warna_tanda'],
+                'jenis_kelamin' => $_POST['jenis_kelamin'],
+                'idpemilik' => $_POST['idpemilik'],
+                'idras_hewan' => $_POST['idras_hewan']
+            ];
+            $petModel->add($data);
+            header("Location: /dashboard/pet");
+            exit;
+        }
+    }
+
     public function editPemilik($id) {
         if (!$this->auth->check()) {
             header("Location: /login");
@@ -256,6 +299,36 @@ class DashboardController {
                 'iduser' => $_POST['iduser']
             ];
             $pemilikModel->update($id, $data);
+            header("Location: /dashboard/pemilik");
+            exit;
+        }
+    }
+
+    public function addPemilik() {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $content = __DIR__ . '/../views/dashboard/partials/pemilik/add.php';
+        include __DIR__ . '/../views/dashboard/layout.php';
+    }
+
+    public function insertPemilik() {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $pemilikModel = new \Model\Pemilik($this->container);
+            $data = [
+                'nama' => $_POST['nama'],
+                'email' => $_POST['email'],
+                'no_wa' => $_POST['no_wa'],
+                'alamat' => $_POST['alamat'],
+            ];
+            $pemilikModel->add($data);
             header("Location: /dashboard/pemilik");
             exit;
         }
@@ -361,5 +434,194 @@ class DashboardController {
             header("Location: /dashboard/role");
             exit;
         }
+    }
+
+    public function addTemuDokter() {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $petModel = new \Model\Pet($this->container);
+        $all_pets = $petModel->getAll();
+
+        $userModel = new \Model\User($this->container);
+        $all_dokters = $userModel->getAllDokter();
+
+        $content = __DIR__ . '/../views/dashboard/partials/temu_dokter/add.php';
+        include __DIR__ . '/../views/dashboard/layout.php';
+    }
+
+    public function insertTemuDokter() {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $temuDokterModel = new \Model\TemuDokter($this->container);
+            $data = [
+                'idpet' => $_POST['idpet'],
+                'idrole_user' => $_POST['idrole_user']
+            ];
+            $temuDokterModel->add($data);
+            header("Location: /dashboard/temu-dokter");
+            exit;
+        }
+    }
+    public function showTemuDokter() {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $content = __DIR__ . '/../views/dashboard/partials/temu_dokter/crud.php';
+        $model = 'TemuDokter';
+        $method = 'getAllWithDetails';
+        $container = $this->auth->getContainer();
+        $key = 'TemuDokter';
+        include __DIR__ . '/../views/dashboard/layout.php';
+    }
+
+    public function addUser() {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $content = __DIR__ . '/../views/dashboard/partials/user/add.php';
+        include __DIR__ . '/../views/dashboard/layout.php';
+    }
+
+    public function insertUser() {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userModel = $this->container->get(\Model\User::class);
+            $data = [
+                'nama' => $_POST['nama'],
+                'email' => $_POST['email'],
+                'password' => $_POST['password']
+            ];
+            $userModel->add($data);
+            header("Location: /dashboard/user");
+            exit;
+        }
+    }
+
+    public function showRekamMedis() {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $content = __DIR__ . '/../views/dashboard/partials/rekam_medis/crud.php';
+        $model = 'RekamMedis';
+        $method = 'getAll';
+        $container = $this->auth->getContainer();
+        $key = 'RekamMedis';
+        include __DIR__ . '/../views/dashboard/layout.php';
+    }
+
+    public function addRekamMedis() {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $petModel = new \Model\Pet($this->container);
+        $all_pets = $petModel->getAll();
+
+        $userModel = new \Model\User($this->container);
+        $all_dokters = $userModel->getAllDokter();
+
+        $temuDokterModel = new \Model\TemuDokter($this->container);
+        $all_temu_dokter = $temuDokterModel->getAllWaiting();
+
+        $content = __DIR__ . '/../views/dashboard/partials/rekam_medis/add.php';
+        include __DIR__ . '/../views/dashboard/layout.php';
+    }
+
+    public function insertRekamMedis() {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $rekamMedisModel = new \Model\RekamMedis($this->container);
+            $data = [
+                'anamnesa' => $_POST['anamnesa'],
+                'temuan_klinis' => $_POST['temuan_klinis'],
+                'diagnosa' => $_POST['diagnosa'],
+                'idpet' => $_POST['idpet'],
+                'dokter_pemeriksa' => $_POST['dokter_pemeriksa'],
+                'idreservasi_dokter' => !empty($_POST['idreservasi_dokter']) ? $_POST['idreservasi_dokter'] : null
+            ];
+            $rekamMedisModel->add($data);
+            header("Location: /dashboard/rekam-medis");
+            exit;
+        }
+    }
+
+    public function editRekamMedis($id) {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $rekamMedisModel = new \Model\RekamMedis($this->container);
+        $rekam_medis = $rekamMedisModel->find($id);
+
+        $petModel = new \Model\Pet($this->container);
+        $all_pets = $petModel->getAll();
+
+        $userModel = new \Model\User($this->container);
+        $all_dokters = $userModel->getAllDokter();
+
+        $temuDokterModel = new \Model\TemuDokter($this->container);
+        $all_temu_dokter = $temuDokterModel->getAllWithDetails();
+
+        $content = __DIR__ . '/../views/dashboard/partials/rekam_medis/edit.php';
+        include __DIR__ . '/../views/dashboard/layout.php';
+    }
+
+    public function updateRekamMedis($id) {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $rekamMedisModel = new \Model\RekamMedis($this->container);
+            $data = [
+                'anamnesa' => $_POST['anamnesa'],
+                'temuan_klinis' => $_POST['temuan_klinis'],
+                'diagnosa' => $_POST['diagnosa'],
+                'idpet' => $_POST['idpet'],
+                'dokter_pemeriksa' => $_POST['dokter_pemeriksa'],
+                'idreservasi_dokter' => !empty($_POST['idreservasi_dokter']) ? $_POST['idreservasi_dokter'] : null
+            ];
+            $rekamMedisModel->update($id, $data);
+            header("Location: /dashboard/rekam-medis");
+            exit;
+        }
+    }
+
+    public function getTemuDokterDetails($id) {
+        if (!$this->auth->check()) {
+            http_response_code(403);
+            exit;
+        }
+
+        $temuDokterModel = new \Model\TemuDokter($this->container);
+        $details = $temuDokterModel->findWithDetails($id);
+
+        header('Content-Type: application/json');
+        echo json_encode($details);
+        exit;
     }
 }

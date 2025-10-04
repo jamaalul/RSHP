@@ -43,13 +43,22 @@ class Pemilik
         return $pemilik ?: null;
     }
 
-    public function create($data): bool
+    public function add(array $data): void
     {
-        $stmt = $this->db->prepare("INSERT INTO pemilik (iduser, no_hp, alamat) VALUES (?, ?, ?)");
-        $stmt->bind_param("iss", $data['iduser'], $data['no_hp'], $data['alamat']);
-        $success = $stmt->execute();
+        // Add to user table
+        $stmt = $this->db->prepare("INSERT INTO user (nama, email, password) VALUES (?, ?, ?)");
+        //- create a default password, since it's not in the form
+        $password = password_hash('password', PASSWORD_DEFAULT);
+        $stmt->bind_param("sss", $data['nama'], $data['email'], $password);
+        $stmt->execute();
+        $iduser = $this->db->insert_id;
         $stmt->close();
-        return $success;
+
+        // Add to pemilik table
+        $stmt = $this->db->prepare("INSERT INTO pemilik (iduser, no_wa, alamat) VALUES (?, ?, ?)");
+        $stmt->bind_param("iss", $iduser, $data['no_wa'], $data['alamat']);
+        $stmt->execute();
+        $stmt->close();
     }
 
     public function update($id, $data): void

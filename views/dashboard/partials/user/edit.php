@@ -13,6 +13,10 @@
             <label for="email">Email</label>
             <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user->email); ?>" required>
         </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Leave blank to keep current password">
+        </div>
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>

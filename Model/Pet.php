@@ -20,8 +20,8 @@ class Pet
     {
         $query = "SELECT p.idpet AS id, p.nama AS Nama, p.tanggal_lahir AS 'Tanggal Lahir', rh.nama_ras AS Ras, jh.nama_jenis_hewan AS Jenis
                   FROM pet p
-                  JOIN ras_hewan rh ON p.idras = rh.idras
-                  JOIN jenis_hewan jh ON rh.idjenis = jh.idjenis";
+                  JOIN ras_hewan rh ON p.idras_hewan = rh.idras_hewan
+                  JOIN jenis_hewan jh ON rh.idjenis_hewan = jh.idjenis_hewan";
         $result = $this->db->query($query);
 
         $pets = [];
@@ -48,6 +48,15 @@ class Pet
     {
         $stmt = $this->db->prepare("INSERT INTO hewan (idpemilik, idras, nama, tgl_lahir) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iiss", $data['idpemilik'], $data['idras'], $data['nama'], $data['tgl_lahir']);
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
+
+    public function add($data): bool
+    {
+        $stmt = $this->db->prepare("INSERT INTO pet (nama, tanggal_lahir, warna_tanda, jenis_kelamin, idpemilik, idras_hewan) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssii", $data['nama'], $data['tanggal_lahir'], $data['warna_tanda'], $data['jenis_kelamin'], $data['idpemilik'], $data['idras_hewan']);
         $success = $stmt->execute();
         $stmt->close();
         return $success;

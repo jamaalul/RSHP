@@ -95,9 +95,13 @@ class User
         $this->db->begin_transaction();
 
         try {
-            // Update user data
-            $stmt = $this->db->prepare("UPDATE user SET nama = ?, email = ? WHERE iduser = ?");
-            $stmt->bind_param("ssi", $data['nama'], $data['email'], $id);
+            if (isset($data['password'])) {
+                $stmt = $this->db->prepare("UPDATE user SET nama = ?, email = ?, password = ? WHERE iduser = ?");
+                $stmt->bind_param("sssi", $data['nama'], $data['email'], $data['password'], $id);
+            } else {
+                $stmt = $this->db->prepare("UPDATE user SET nama = ?, email = ? WHERE iduser = ?");
+                $stmt->bind_param("ssi", $data['nama'], $data['email'], $id);
+            }
             $stmt->execute();
             $stmt->close();
 
@@ -157,5 +161,40 @@ class User
 
         return $users;
     }
+    
+    public function add($data)
+    {
+        // Insert user data
+        $stmt = $this->db->prepare("INSERT INTO user (nama, email, password) VALUES (?, ?, ?)");
+        $password = password_hash($data['password'], PASSWORD_DEFAULT);
+        $stmt->bind_param("sss", $data['nama'], $data['email'], $password);
+        $stmt->execute();
+        $stmt->close();
+    }
 
+    public function getAllRoles(): array
+    {
+        $all_roles_result = $this->db->query("SELECT idrole, nama_role as nama FROM role");
+        $all_roles = [];
+        while ($row = $all_roles_result->fetch_object()) {
+            $all_roles[] = $row;
+        }
+        return $all_roles;
+    }
+
+    public function getAllDokter(): array
+    {
+        $query = "SELECT u.iduser, u.nama, ru.idrole_user FROM user u
+                  JOIN role_user ru ON u.iduser = ru.iduser
+                  JOIN role r ON ru.idrole = r.idrole
+                  WHERE r.nama_role = 'dokter'";
+        $result = $this->db->query($query);
+
+        $dokters = [];
+        while ($row = $result->fetch_object()) {
+            $dokters[] = $row;
+        }
+
+        return $dokters;
+    }
 }

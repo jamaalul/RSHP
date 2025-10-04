@@ -24,6 +24,7 @@ if (isset($model) && isset($method)) {
 <link rel="stylesheet" href="../../views/css/crud.css">
 <div class="container">
     <h1>Manage <?php echo ucfirst($key); ?></h1>
+    <a href="/dashboard/temu-dokter/add" class="btn btn-primary mb-3">Tambah <?php  echo ucfirst($key); ?></a>
     <table class="table">
         <thead>
             <tr>
