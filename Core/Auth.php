@@ -35,11 +35,13 @@ class Auth
         $user = $userModel->findByEmail($email);
 
         if ($user && password_verify($password, (string)$user['password'])) {
+            $userId = $user['iduser'];
+            $roles = $userModel->getRolesForUser($userId);
             $_SESSION['user'] = [
-                'id'       => isset($user['iduser']) ? (int)$user['iduser'] : null,
+                'id'       => $userId,
                 'email' => $user['email'],
                 'nama'     => $user['nama'],
-                'role'     => $user['role'] ?? 'user',
+                'roles'    => $roles,
             ];
             return true;
         }
@@ -72,11 +74,20 @@ class Auth
     }
 
     /**
-     * Return the current user's role.
+     * Return the current user's roles.
+     */
+    public function roles(): array
+    {
+        return $_SESSION['user']['roles'] ?? [];
+    }
+
+    /**
+     * Return the current user's role (first one for backward compatibility).
      */
     public function role(): ?string
     {
-        return $_SESSION['user']['role'] ?? null;
+        $roles = $this->roles();
+        return $roles[0] ?? null;
     }
 
     /**

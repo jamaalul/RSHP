@@ -198,6 +198,20 @@ class User
         return $dokters;
     }
 
+    public function getRolesForUser(int $userId): array
+    {
+        $stmt = $this->db->prepare("SELECT r.nama_role FROM role_user ru JOIN role r ON ru.idrole = r.idrole WHERE ru.iduser = ?");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $roles = [];
+        while ($row = $result->fetch_assoc()) {
+            $roles[] = $row['nama_role'];
+        }
+        $stmt->close();
+        return $roles;
+    }
+
     public function delete($id): void
     {
         $stmt = $this->db->prepare("DELETE FROM user WHERE iduser = ?");
