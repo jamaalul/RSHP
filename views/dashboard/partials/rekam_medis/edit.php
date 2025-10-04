@@ -49,5 +49,6 @@
             <textarea id="diagnosa" name="diagnosa" rows="4" required><?php echo htmlspecialchars($rekam_medis->diagnosa); ?></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
+        <a href="/dashboard/rekam-medis/delete/<?php echo $rekam_medis->idrekam_medis; ?>" class="btn btn-danger">Delete</a>
     </form>
 </div>

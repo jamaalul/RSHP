@@ -81,4 +81,12 @@ class JenisHewan
         $stmt->close();
         return $success;
     }
+
+    public function delete($id): void
+    {
+        $stmt = $this->db->prepare("DELETE FROM jenis_hewan WHERE idjenis_hewan = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+    }
 }

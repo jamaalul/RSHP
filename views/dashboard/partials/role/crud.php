@@ -41,7 +41,7 @@ if (isset($model) && isset($method)) {
                             <td><?php echo htmlspecialchars($row->$header); ?></td>
                         <?php endforeach; ?>
                         <td>
-                            <a href="/dashboard/role/edit/<?php echo $row->id; ?>" class="btn btn-warning btn-sm">Edit Roles</a>
+                            <a href="/dashboard/role/edit/<?php echo $row->id; ?>" class="btn btn-warning btn-sm">Edit</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

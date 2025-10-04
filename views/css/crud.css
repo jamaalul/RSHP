@@ -63,6 +63,10 @@ h1 {
     color: #fff !important;
 }
 
+.btn-danger {
+    color: tomato;
+}
+
 .btn-sm {
     padding: 5px 10px;
     font-size: 12px;

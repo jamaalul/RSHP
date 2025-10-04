@@ -41,10 +41,12 @@ $router->get('/dashboard/user/edit/{id}', [new DashboardController($auth, $conta
 $router->post('/dashboard/user/update/{id}', [new DashboardController($auth, $container), 'updateUser']);
 $router->get('/dashboard/user/add', [new DashboardController($auth, $container), 'addUser']);
 $router->post('/dashboard/user/add', [new DashboardController($auth, $container), 'insertUser']);
+$router->get('/dashboard/user/delete/{id}', [new DashboardController($auth, $container), 'deleteUser']);
 
 $router->get('/dashboard/jhewan', [new DashboardController($auth, $container), 'showJhewan']);
 $router->get('/dashboard/jhewan/edit/{id}', [new DashboardController($auth, $container), 'editJhewan']);
 $router->post('/dashboard/jhewan/update/{id}', [new DashboardController($auth, $container), 'updateJhewan']);
+$router->get('/dashboard/jhewan/delete/{id}', [new DashboardController($auth, $container), 'deleteJhewan']);
 
 $router->get('/dashboard/rhewan', [new DashboardController($auth, $container), 'showRHewan']);
 $router->get('/dashboard/rhewan/add/{idjenis}', [new DashboardController($auth, $container), 'addRas']);
@@ -55,12 +57,14 @@ $router->post('/dashboard/rhewan/update/{id}', [new DashboardController($auth, $
 $router->get('/dashboard/pemilik', [new DashboardController($auth, $container), 'showPemilik']);
 $router->get('/dashboard/pemilik/edit/{id}', [new DashboardController($auth, $container), 'editPemilik']);
 $router->post('/dashboard/pemilik/update/{id}', [new DashboardController($auth, $container), 'updatePemilik']);
+$router->get('/dashboard/pemilik/delete/{id}', [new DashboardController($auth, $container), 'deletePemilik']);
 $router->get('/dashboard/pemilik/add', [new DashboardController($auth, $container), 'addPemilik']);
 $router->post('/dashboard/pemilik/add', [new DashboardController($auth, $container), 'insertPemilik']);
 
 $router->get('/dashboard/pet', [new DashboardController($auth, $container), 'showPet']);
 $router->get('/dashboard/pet/edit/{id}', [new DashboardController($auth, $container), 'editPet']);
 $router->post('/dashboard/pet/update/{id}', [new DashboardController($auth, $container), 'updatePet']);
+$router->get('/dashboard/pet/delete/{id}', [new DashboardController($auth, $container), 'deletePet']);
 $router->get('/dashboard/pet/add', [new DashboardController($auth, $container), 'addPet']);
 $router->post('/dashboard/pet/add', [new DashboardController($auth, $container), 'insertPet']);
 
@@ -78,6 +82,7 @@ $router->get('/dashboard/rekam-medis/add', [new DashboardController($auth, $cont
 $router->post('/dashboard/rekam-medis/add', [new DashboardController($auth, $container), 'insertRekamMedis']);
 $router->get('/dashboard/rekam-medis/edit/{id}', [new DashboardController($auth, $container), 'editRekamMedis']);
 $router->post('/dashboard/rekam-medis/update/{id}', [new DashboardController($auth, $container), 'updateRekamMedis']);
+$router->get('/dashboard/rekam-medis/delete/{id}', [new DashboardController($auth, $container), 'deleteRekamMedis']);
 
 // dispatch request
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

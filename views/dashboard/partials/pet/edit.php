@@ -45,5 +45,6 @@
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
+        <a href="/dashboard/pet/delete/<?php echo $pet->idpet; ?>" class="btn btn-danger">Delete</a>
     </form>
 </div>

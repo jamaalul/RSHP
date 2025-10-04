@@ -73,7 +73,7 @@ class Pet
 
     public function delete($id): bool
     {
-        $stmt = $this->db->prepare("DELETE FROM hewan WHERE idhewan = ?");
+        $stmt = $this->db->prepare("DELETE FROM pet WHERE idpet = ?");
         $stmt->bind_param("i", $id);
         $success = $stmt->execute();
         $stmt->close();

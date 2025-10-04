@@ -110,6 +110,19 @@ class DashboardController {
         }
     }
 
+    public function deleteJhewan($id) {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $jhewanModel = new \Model\JenisHewan($this->container);
+        $jhewanModel->delete($id);
+
+        header("Location: /dashboard/jhewan");
+        exit;
+    }
+
     public function updateUser($id) {
         if (!$this->auth->check()) {
             header("Location: /login");
@@ -131,6 +144,19 @@ class DashboardController {
             header("Location: /dashboard/user");
             exit;
         }
+    }
+
+    public function deleteUser($id) {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $userModel = new \Model\User($this->container);
+        $userModel->delete($id);
+
+        header("Location: /dashboard/user");
+        exit;
     }
 
     public function showJhewan() {
@@ -232,6 +258,19 @@ class DashboardController {
         }
     }
 
+    public function deletePet($id) {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $petModel = new \Model\Pet($this->container);
+        $petModel->delete($id);
+
+        header("Location: /dashboard/pet");
+        exit;
+    }
+
     public function addPet() {
         if (!$this->auth->check()) {
             header("Location: /login");
@@ -302,6 +341,19 @@ class DashboardController {
             header("Location: /dashboard/pemilik");
             exit;
         }
+    }
+
+    public function deletePemilik($id) {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $pemilikModel = new \Model\Pemilik($this->container);
+        $pemilikModel->delete($id);
+
+        header("Location: /dashboard/pemilik");
+        exit;
     }
 
     public function addPemilik() {
@@ -609,6 +661,19 @@ class DashboardController {
             header("Location: /dashboard/rekam-medis");
             exit;
         }
+    }
+
+    public function deleteRekamMedis($id) {
+        if (!$this->auth->check()) {
+            header("Location: /login");
+            exit;
+        }
+
+        $rekamMedisModel = new \Model\RekamMedis($this->container);
+        $rekamMedisModel->delete($id);
+
+        header("Location: /dashboard/rekam-medis");
+        exit;
     }
 
     public function getTemuDokterDetails($id) {

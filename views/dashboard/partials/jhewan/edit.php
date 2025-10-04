@@ -10,5 +10,6 @@
             <input type="text" id="nama" name="nama" value="<?php echo htmlspecialchars($jhewan->nama); ?>" required>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
+        <a href="/dashboard/jhewan/delete/<?php echo $jhewan->id; ?>" class="btn btn-danger">Delete</a>
     </form>
 </div>

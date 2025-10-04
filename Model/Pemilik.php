@@ -78,11 +78,26 @@ class Pemilik
 
     public function delete($id): bool
     {
+        // Find the pemilik to get the associated user id
+        $pemilik = $this->find($id);
+        if (!$pemilik) {
+            return false;
+        }
+        $iduser = $pemilik->iduser;
+
+        // Delete from pemilik table
         $stmt = $this->db->prepare("DELETE FROM pemilik WHERE idpemilik = ?");
         $stmt->bind_param("i", $id);
-        $success = $stmt->execute();
+        $success1 = $stmt->execute();
         $stmt->close();
-        return $success;
+
+        // Delete from user table
+        $stmt = $this->db->prepare("DELETE FROM user WHERE iduser = ?");
+        $stmt->bind_param("i", $iduser);
+        $success2 = $stmt->execute();
+        $stmt->close();
+
+        return $success1 && $success2;
     }
 
     public function getAllUsers(): array

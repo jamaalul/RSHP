@@ -197,4 +197,12 @@ class User
 
         return $dokters;
     }
+
+    public function delete($id): void
+    {
+        $stmt = $this->db->prepare("DELETE FROM user WHERE iduser = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+    }
 }

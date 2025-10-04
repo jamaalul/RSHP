@@ -1,7 +1,7 @@
 <?php
 // The $user variable is passed from the editUser method in DashboardController
 ?>
-<link rel="stylesheet" href="../../../views/css/edit.css?v=1.1">
+<link rel="stylesheet" href="../../../views/css/edit.css">
 <div class="container">
     <h1>Edit User</h1>
     <form action="/dashboard/user/update/<?php echo $user->iduser; ?>" method="POST" class="edit-form">
@@ -18,5 +18,6 @@
             <input type="password" id="password" name="password" placeholder="Leave blank to keep current password">
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
+        <a href="/dashboard/user/delete/<?php echo $user->iduser; ?>" class="btn btn-danger">Delete</a>
     </form>
 </div>

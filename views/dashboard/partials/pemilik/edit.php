@@ -23,5 +23,6 @@
             <input type="text" id="alamat" name="alamat" value="<?php echo htmlspecialchars($pemilik->alamat); ?>" required>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
+        <a href="/dashboard/pemilik/delete/<?php echo $pemilik->idpemilik; ?>" class="btn btn-danger">Delete</a>
     </form>
 </div>
